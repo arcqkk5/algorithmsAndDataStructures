@@ -33,6 +33,25 @@ const binarySearch = (arr, num) => {
   return position;
 };
 
+const recursiveBinarySearch = (arr, num, start, end) => {
+  let mid = Math.floor((start + end) / 2);
+  if (num === arr[mid]) {
+    return mid;
+  }
+  if (num < arr[mid]) {
+    return recursiveBinarySearch(arr, num, start, mid - 1);
+  } else {
+    return recursiveBinarySearch(arr, num, mid + 1, end);
+  }
+};
+
+console.log(
+  binarySearch([1, 3, 5, 7, 8, 13, 14, 15, 16, 17, 19, 30, 34, 39], 19)
+); // 10
+
+const arrBin = [1, 3, 5, 7, 8, 13, 14, 15, 16, 17, 19, 30, 34, 39];
+console.log(recursiveBinarySearch(arrBin, 19, 0, arrBin.length)); // 10
+
 //linearSearch
 const linearSearch = (arr, num) => {
   let i = null;
@@ -45,15 +64,12 @@ const linearSearch = (arr, num) => {
 };
 
 console.log(linearSearch([12, 354, 4, 18, 20, 44, 19, 44, 44, 24], 44)); // 5
-console.log(
-  binarySearch([1, 3, 5, 7, 8, 13, 14, 15, 16, 17, 19, 30, 34, 39], 19)
-); // 10
 
 /**************
  *****SORT******
  ***************/
 
-//bubble sort
+//bubble sort O(n**2)
 const bubbleSort = (array) => {
   for (let i = 0; i < array.length; i++) {
     for (let j = 0; j < array.length; j++) {
@@ -66,8 +82,35 @@ const bubbleSort = (array) => {
 };
 console.log(bubbleSort([12, 354, 4, 18, 20, 44, 19, 44, 44, 24]));
 
-//quick sort
-//selection sort O(n**2)
+//quick sort O(N*LogN)
+const quickSort = (array) => {
+  if (array.length <= 1) return array;
+
+  let pivotIndex = Math.floor(array.length / 2);
+  let pivot = array[pivotIndex];
+  let less = [];
+  let greater = [];
+
+  for (let i = 0; i < array.length; i++) {
+    if (i === pivotIndex) {
+      continue;
+    }
+    if (array[i] < pivot) {
+      less.push(array[i]);
+    } else {
+      greater.push(array[i]);
+    }
+  }
+  return [...quickSort(less), pivot, ...quickSort(greater)];
+};
+console.log(
+  quickSort([
+    12, 354, 4, 18, 20, 44, 19, 44, 44, 24, 12, 354, 4, 18, 20, 44, 19, 44, 44,
+    24, 12, 354, 4, 18, 20, 44, 19, 44, 44, 24, 12, 354, 4, 18, 20, 44, 19, 44,
+    44, 24,
+  ])
+);
+//selection sort O(1/2 n**2)
 const selectionSort = (array) => {
   for (let i = 0; i < array.length; i++) {
     let index = i;
